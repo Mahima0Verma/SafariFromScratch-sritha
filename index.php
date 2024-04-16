@@ -1,3 +1,80 @@
+<?php
+session_start();
+require_once("assets/php/connection.php");
+echo "<script>
+    let signupPopUp = document.getElementById('signup-popup-container');
+    signupPopUp.style.display = 'block';  
+    alert('hello');    
+</script>";
+if(isset($_POST["submit"])) {
+    echo "I am called";
+    echo "email: " . $_SESSION["email"];
+    
+
+    $otp = "";
+    // Concatenate the individual OTP input values
+    $otp .= $_POST["otp1"];
+    $otp .= $_POST["otp2"];
+    $otp .= $_POST["otp3"];
+    $otp .= $_POST["otp4"];
+    $otp .= $_POST["otp5"];
+    $otp .= $_POST["otp6"];
+
+    echo $otp;
+
+    $email = $_SESSION["email"];
+    $userOtp = "SELECT * FROM users WHERE email = '$email'";
+    $response = $conn->query($userOtp);
+    
+    if ($response) {
+        $userData = $response->fetch_assoc();
+        $correctOtp = $userData['otp'];
+        $timeValue = new DateTime($userData['timeValue']); // Convert DATETIME to DateTime object
+
+        $currentTime = new DateTime(); // Current DateTime object
+        
+        // Calculate the expiry time (current time + 60 seconds)
+        $expiryTime = $timeValue->modify('+60 seconds');
+
+        if ($currentTime > $expiryTime) {
+            // OTP has expired
+            echo "OTP expired";
+        }else if ($otp != $correctOtp) {
+          echo "Incorrect OTP";
+        }
+        else {
+          echo "otp valid";
+            // Check if email already exists in loggedin_users table
+            $exists_query = "SELECT * FROM loggedin_users WHERE email='$email'";
+            $exists_result = $conn->query($exists_query);
+            if (!$exists_result) {
+              // Error in database query
+              echo ("Database query error: " . $conn->error);
+          }
+          
+          if ($exists_result->num_rows == 0) {
+              // Email does not exist in loggedin_users table, insert it
+              $dateValue = date("Y-m-d H:i:s");
+              $insert_query = "INSERT INTO loggedin_users (email, timeValue) VALUES ('$email', '$dateValue')";
+              if (!$conn->query($insert_query)) {
+                  // Error inserting record
+                  echo ("Error inserting record into loggedin_users table: " . $conn->error);
+              }
+              else{
+                // Success response
+                echo "OTP verification successful";
+                  // Rest of your code for handling the result of the query
+                }
+          }
+          
+        }
+    } else {
+        echo "Error executing query: " . $conn->error;
+    }
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="zxx">
   <head>
@@ -44,7 +121,6 @@
     <!-- Responsive CSS -->
     <link rel="stylesheet" href="assets/css/responsive.css" />
   </head>
-
   <body>
     <!-- Start Preloader Section -->
     <div class="techSoft-preloader">
@@ -135,23 +211,45 @@
                   </div>
                 </div>
               </div>
-              
+              <!--signup-->
               <div>
                 <button class="btn btn-primary open-signup d-none d-lg-block">Signup</button>
-                <div class="signup-popup-container">
+                <div class="signup-popup-container" id="signup-popup-container">
                   <div class="signup-popup-card">
                     <div class="margin-right w-100">
                       <i class="close-signup fa fa-times"></i>
                     </div>
                     <div class="container">
-                      <h2>Login</h2>
-                      <form id="loginForm">
-                          <input type="text" id="username" name="username" placeholder="Username" required>
-                          <input type="password" id="password" name="password" placeholder="Password" required>
-                          <button type="submit">Login</button>
+                      <h2 class="text-center mb-3" style="color:hsl(19, 100%, 50%);">Sign up</h2>
+                      <form id="loginForm"  style="display: flex;flex-direction: column;">
+                        <label class="signup-label"><b>Email</b></label>  
+                        <input type="text" id="email" name="email" placeholder="email" class="rounded p-2 signup-input-email-field mb-3" style="border-color:darkgray;" required>
+                          <button type="submit" class="btn btn-primary rounded-3">submit</button>
                           <p id="message"></p>
                       </form>
-                  </div>
+                      <div class="d-none" id="otpForm">
+                      <form id="otpVerificationForm" style="display: flex;flex-direction: column;" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+    <label class="signup-label"><b>Email</b></label>  
+    <input type="text" id="emailValue" name="emailValue" placeholder="email" class="rounded p-2 signup-input-email-field" style="border-color:darkgray;" disabled>
+    <label><b>Enter OTP:</b></label>
+    <p>TimeLeft: <span id="timeLeft"></span></p>
+    <div class="otp-container">
+        <input type="text" class="otp-input" name="otp1" id="otp1" maxlength="1">
+        <input type="text" name="otp2" class="otp-input" id="otp2" maxlength="1" disabled>
+        <input type="text" name="otp3" class="otp-input" id="otp3" maxlength="1" disabled>
+        <input type="text" name="otp4" class="otp-input" id="otp4" maxlength="1" disabled>
+        <input type="text" name="otp5" class="otp-input" id="otp5" maxlength="1" disabled>
+        <input type="text" name="otp6" class="otp-input" id="otp6" maxlength="1" disabled>
+    </div>
+
+    <div class="text-right">
+      <button class="text-primary" id="resendOTp">Resend OTP</button>
+    </div>
+    <p>
+    <input type="submit" name="submit" id="otpSubmission" class="btn btn-primary rounded-3" value="Submit"/>
+</form>
+
+                    </div>
                   </div>
                 </div>
                 

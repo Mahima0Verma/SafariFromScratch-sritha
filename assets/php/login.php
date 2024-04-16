@@ -9,14 +9,9 @@ require 'PHPMailer/src/Exception.php';
 require 'PHPMailer/src/PHPMailer.php';
 require 'PHPMailer/src/SMTP.php';
 
-// Function to generate OTP
-function generateOTP() {
-    return rand(100000, 999999);
-}
+$mail = new PHPMailer(true);
 
-// Function to send email
-function sendOTP($email, $otp) {
-    $mail = new PHPMailer(true); // Create a new instance of PHPMailer
+    //Server settings
     $mail->isSMTP();                                            // Send using SMTP
     $mail->Host       = 'smtp.gmail.com';                     // Set the SMTP server to send through
     $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
@@ -24,7 +19,16 @@ function sendOTP($email, $otp) {
     $mail->Password   = 'fskvbdfskmblmgsp';                         // SMTP password
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
     $mail->Port       = 587;                                    // TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
+    //Recipients
     $mail->setFrom('eernagasritha@gmail.com', 'Mailer');
+
+// Function to generate OTP
+function generateOTP() {
+    return rand(100000, 999999);
+}
+
+// Function to send email
+function sendOTP($email, $otp,$mail) {
     $mail->addAddress($email, 'Recipient');     
     $mail->isHTML(true);                                        // Set email format to HTML
     $mail->Subject = 'Subject';
@@ -43,9 +47,8 @@ function returnError($message) {
 // Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Get the username and password from the form
-    $email = $_POST["username"];
-    $password = $_POST["password"];
-    
+    $email = $_POST["email"];
+    $_SESSION["email"] = $email;
     // Prepare the SQL statement
     $otp = generateOTP();
     $current_date_time = date("Y-m-d H:i:s");
@@ -65,7 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         if ($conn->query($update_query) === TRUE) {
             // Update successful, send OTP via email
-            if (sendOTP($email, $otp)) {
+            if (sendOTP($email, $otp,$mail)) {
                 $_SESSION["email"] = $email;
                 $response = ["success" => true, "message" => "Login successful"];
             } else {
