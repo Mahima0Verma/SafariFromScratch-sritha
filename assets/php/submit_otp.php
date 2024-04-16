@@ -1,20 +1,21 @@
 <?php
 session_start();
 require_once("connection.php");
-if(isset($_POST["submit"])) {
-    
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  
 
-    $otp = "";
-    // Concatenate the individual OTP input values
-    $otp .= $_POST["otp1"];
-    $otp .= $_POST["otp2"];
-    $otp .= $_POST["otp3"];
-    $otp .= $_POST["otp4"];
-    $otp .= $_POST["otp5"];
-    $otp .= $_POST["otp6"];
+  $otp = "";
+  // Concatenate the individual OTP input values
+  $otp .= $_POST["otp1"];
+  $otp .= $_POST["otp2"];
+  $otp .= $_POST["otp3"];
+  $otp .= $_POST["otp4"];
+  $otp .= $_POST["otp5"];
+  $otp .= $_POST["otp6"];
+ 
 
-    $email = $_SESSION["email"];
-    $userOtp = "SELECT * FROM users WHERE email = '$email'";
+  $email = $_SESSION["email"];
+  $userOtp = "SELECT * FROM users WHERE email = '$email'";
     $response = $conn->query($userOtp);
     
     if ($response) {
@@ -62,5 +63,6 @@ if(isset($_POST["submit"])) {
     } else {
         echo "Error executing query: " . $conn->error;
     }
+
 }
 ?>

@@ -1,11 +1,6 @@
 <?php
 session_start();
 require_once("assets/php/connection.php");
-echo "<script>
-    let signupPopUp = document.getElementById('signup-popup-container');
-    signupPopUp.style.display = 'block';  
-    alert('hello');    
-</script>";
 if(isset($_POST["submit"])) {
     echo "I am called";
     echo "email: " . $_SESSION["email"];
@@ -228,26 +223,28 @@ if(isset($_POST["submit"])) {
                           <p id="message"></p>
                       </form>
                       <div class="d-none" id="otpForm">
-                      <form id="otpVerificationForm" style="display: flex;flex-direction: column;" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+                      <form id="otpVerificationForm" style="display: flex;flex-direction: column;">
     <label class="signup-label"><b>Email</b></label>  
     <input type="text" id="emailValue" name="emailValue" placeholder="email" class="rounded p-2 signup-input-email-field" style="border-color:darkgray;" disabled>
     <label><b>Enter OTP:</b></label>
     <p>TimeLeft: <span id="timeLeft"></span></p>
     <div class="otp-container">
-        <input type="text" class="otp-input" name="otp1" id="otp1" maxlength="1">
-        <input type="text" name="otp2" class="otp-input" id="otp2" maxlength="1" disabled>
-        <input type="text" name="otp3" class="otp-input" id="otp3" maxlength="1" disabled>
+        <input type="text" class="otp-input" name="otp1" id="otp1" maxlength="1" require>
+        <input type="text" name="otp2" class="otp-input" id="otp2" maxlength="1" disabled require>
+        <input type="text" name="otp3" class="otp-input" id="otp3" maxlength="1" disabled require>
         <input type="text" name="otp4" class="otp-input" id="otp4" maxlength="1" disabled>
         <input type="text" name="otp5" class="otp-input" id="otp5" maxlength="1" disabled>
         <input type="text" name="otp6" class="otp-input" id="otp6" maxlength="1" disabled>
     </div>
 
-    <div class="text-right">
-      <button class="text-primary" id="resendOTp">Resend OTP</button>
-    </div>
+
     <p>
-    <input type="submit" name="submit" id="otpSubmission" class="btn btn-primary rounded-3" value="Submit"/>
+    <button type="submit" class="btn btn-primary rounded-3">submit</button>
+    <p id="otpResponse"></p>
 </form>
+<div style="text-align:right">
+      <button class="text-primary" id="resendOtp">Resend OTP</button>
+    </div>
 
                     </div>
                   </div>

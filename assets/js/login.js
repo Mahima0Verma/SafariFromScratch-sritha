@@ -25,15 +25,67 @@ document.querySelectorAll(".otp-input").forEach(function (input, index) {
 });
 
 
-
-
+var globalFormData;
+let email = document.getElementById("email");
 document.getElementById("loginForm").addEventListener("submit", function(event) {
     event.preventDefault();
     console.log("I am called");
-    
-    var formData = new FormData(this);
-    
+
+    // Create FormData object
+    globalFormData = new FormData(this);
+    globalFormData.append("email", email.value);
+
+    sendOtp(globalFormData);
+});
+function sendOtp() {
+  console.log("I am called again");
     fetch('./assets/php/login.php', {
+            method: 'POST',
+            body: globalFormData
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Handle successful response
+            console.log(data);
+            if (data.success) {
+                document.getElementById("loginForm").classList.add('d-none');
+                document.getElementById("otpForm").classList.remove('d-none');
+                document.getElementById("emailValue").value = email.value;
+            }
+        })
+        .catch(error => {
+            // Handle error
+            console.error('There was a problem with the fetch operation:', error);
+            alert("Error: " + error.message); // Display error message to the user
+        });
+}
+
+document.getElementById("otpVerificationForm").addEventListener("submit",function(event){
+  event.preventDefault();
+  
+  var formData = new FormData(this);
+ 
+  var otpInputs = document.querySelectorAll(".otp-input");
+    var isFilled = true;
+    var otp = "";
+    // Check if any OTP input field is empty
+    otpInputs.forEach(function(input) {
+        otp += input.value;
+    });
+  console.log(otp);
+    // If any OTP input field is empty, prevent form submission
+    if (otp.length<6) {
+       
+        alert("Please fill in all OTP fields.");
+    }else{
+  
+  console.log("I am called");
+    fetch('./assets/php/submit_otp.php', {
         method: 'POST',
         body: formData
       })
@@ -41,25 +93,24 @@ document.getElementById("loginForm").addEventListener("submit", function(event) 
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
-        return response.json();
+        console.log(response);
+        return response.text();
       })
       .then(data => {
         // Handle successful response
         console.log(data);
-        if(data.success){
-          document.getElementById("loginForm").classList.add('d-none');
-          document.getElementById("otpForm").classList.remove('d-none');
-          document.getElementById("emailValue").value = document.getElementById("email").value;
-        }
-      })
-      .catch(error => {
-        // Handle error
-        console.error('There was a problem with the fetch operation:', error);
+        var message=document.getElementById("otpResponse");
+        message.textContent=data;
       });
-      
-});
+    }   
 
+})
 
+let resend = document.getElementById("resendOtp");
+console.log(resend.textContent);
+resend.addEventListener("click",function(){
+  sendOtp();
+})
 /*document.getElementById("otpVerification").addEventListener("submit",function(event){
   event.preventDefault();
   console.log("I am called again");

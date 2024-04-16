@@ -70,7 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Update successful, send OTP via email
             if (sendOTP($email, $otp,$mail)) {
                 $_SESSION["email"] = $email;
-                $response = ["success" => true, "message" => "Login successful"];
+                $response = ["success" => true, "message" => "OTP sent successful"];
             } else {
                 returnError("Error sending OTP");
             }
