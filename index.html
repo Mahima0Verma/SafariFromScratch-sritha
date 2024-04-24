@@ -44,7 +44,6 @@
     <!-- Responsive CSS -->
     <link rel="stylesheet" href="assets/css/responsive.css" />
   </head>
-
   <body>
     <!-- Start Preloader Section -->
     <div class="techSoft-preloader">
@@ -135,23 +134,47 @@
                   </div>
                 </div>
               </div>
-              
+              <!--signup-->
               <div>
                 <button class="btn btn-primary open-signup d-none d-lg-block">Signup</button>
-                <div class="signup-popup-container">
+                <div class="signup-popup-container" id="signup-popup-container">
                   <div class="signup-popup-card">
                     <div class="margin-right w-100">
                       <i class="close-signup fa fa-times"></i>
                     </div>
                     <div class="container">
-                      <h2>Login</h2>
-                      <form id="loginForm">
-                          <input type="text" id="username" name="username" placeholder="Username" required>
-                          <input type="password" id="password" name="password" placeholder="Password" required>
-                          <button type="submit">Login</button>
+                      <h2 class="text-center mb-3" style="color:hsl(19, 100%, 50%);">Sign up</h2>
+                      <form id="loginForm"  style="display: flex;flex-direction: column;">
+                        <label class="signup-label"><b>Email</b></label>  
+                        <input type="text" id="email" name="email" placeholder="email" class="rounded p-2 signup-input-email-field mb-3" style="border-color:darkgray;" required>
+                          <button type="submit" class="btn btn-primary rounded-3">submit</button>
                           <p id="message"></p>
                       </form>
-                  </div>
+                      <div class="d-none" id="otpForm">
+                      <form id="otpVerificationForm" style="display: flex;flex-direction: column;">
+    <label class="signup-label"><b>Email</b></label>  
+    <input type="text" id="emailValue" name="emailValue" placeholder="email" class="rounded p-2 signup-input-email-field" style="border-color:darkgray;" disabled>
+    <label><b>Enter OTP:</b></label>
+    <p>TimeLeft: <span id="timeLeft"></span></p>
+    <div class="otp-container">
+        <input type="text" class="otp-input" name="otp1" id="otp1" maxlength="1" require>
+        <input type="text" name="otp2" class="otp-input" id="otp2" maxlength="1" disabled require>
+        <input type="text" name="otp3" class="otp-input" id="otp3" maxlength="1" disabled require>
+        <input type="text" name="otp4" class="otp-input" id="otp4" maxlength="1" disabled>
+        <input type="text" name="otp5" class="otp-input" id="otp5" maxlength="1" disabled>
+        <input type="text" name="otp6" class="otp-input" id="otp6" maxlength="1" disabled>
+    </div>
+
+
+    <p>
+    <button type="submit" class="btn btn-primary rounded-3">submit</button>
+    <p id="otpResponse"></p>
+</form>
+<div style="text-align:right">
+      <button class="text-primary" id="resendOtp">Resend OTP</button>
+    </div>
+
+                    </div>
                   </div>
                 </div>
                 
@@ -187,7 +210,7 @@
                     </p>
                   </div>
                   <div class="home-slider-btn-box">
-                    <a href="#0" class="btn btn-primary mr-15">Book now</a>
+                    <a href="#" class="btn btn-primary mr-15 open-book-now-popup">Book now</a>
                     
                   </div>
                 </div>
@@ -213,7 +236,7 @@
                   </div>
                   <div class="home-slider-btn-box">
                     
-                    <a href="#0" class="btn btn-primary">Book Now</a>
+                    <a href="#" class="btn btn-primary open-book-now-popup">Book Now</a>
                   </div>
                 </div>
               </div>
@@ -238,7 +261,7 @@
                   </div>
                   <div class="home-slider-btn-box">
                     
-                    <a href="#0" class="btn btn-primary">Book Now</a>
+                    <a href="#" class="btn btn-primary open-book-now-popup">Book Now</a>
                   </div>
                 </div>
               </div>
@@ -246,6 +269,73 @@
           </div>
         </div>
       </div>
+      <!--Book now popup start-->
+      <div class="book-now-popup-container" id="book-now-popup-container">
+          <div class="book-now-popup-card">
+            <div class="margin-right w-100">
+              <i class="close-booknow fa fa-times"></i>
+            </div>
+            <div class="container">
+              <h2 class="text-center mb-5" style="color: hsl(19,100%,50%);">Enquire Form</h2>
+              <form id="enquire-form" style="display: flex; flex-direction: column;">
+                <div class="enquire-input-container">
+                  <label for="username">Full Name<span>*</span></label>
+                  <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+                </div>
+                <div class="enquire-input-container">
+                  <label for="number">WhatsApp Number<span>*</span></label>
+                  <input id="number" type="tel" placeholder="Enter you Whatsapp number" required>
+                </div>
+                <div class="enquire-input-container">
+                  <label for="address">Current Address<span>*</span></label>
+                  <textarea id="address" cols="" rows="" placeholder="Enter your current address"></textarea>
+                </div>
+                <div class="enquire-input-container">
+                  <label for="near-busstop">Nearby Bus-Stop<span>*</span></label>
+                  <input type="text" id="near-busstop" placeholder="Enter your near by bus-stop" required>
+                </div>
+                <div class="enquire-input-container">
+                  <label for="exam">Select Exam<span>*</span></label>
+                  <select id="exam" >
+                    <option value="select exam">Select an Exam</option>
+                    <option value="select exam">UPSC</option>
+                    <option value="select exam">JEE</option>
+                    <option value="select exam">CAT</option>
+                  </select>
+                </div>
+                <div class="enquire-input-container">
+                  <label for="exam-date">Select Exam Date<span>*</span></label>
+                  <input type="date" id="exam-date" placeholder="" required >
+                </div>
+                <div class="enquire-input-container">
+                  <label for="city">Exam City<span>*</span></label>
+                  <input type="text" id="city" placeholder="Enter your exam city" required>
+                </div>
+                <div class="enquire-input-container">
+                    <label for="center">Exam Center<span>*</span></label>
+                    <input type="text" id="center" placeholder="Enter your exam center">
+                </div>
+                <div class="enquire-input-container">
+                    <label for="service">Select Required Service<span>*</span></label>
+                    <select id="service">
+                      <option value="select service">Select service</option>
+                      <option value="travel">Travel</option>
+                      <option value="accommodation">Accommodation</option>
+                      <option value="travel+accommodation">Travel+Accommodation</option>
+                    </select>
+                </div>
+                <div class="enquire-input-container">
+                    <label for="admitcard">Upload Admit Card<span>*</span></label>
+                    <input type="file">
+                </div>
+                <div class="submit-btn-container ">
+                  <button class="btn btn-primary">Submit</button>
+                </div>
+              </form>
+            </div>
+          </div>
+      </div>
+      <!--Book now popup end-->
     </div>
     <!-- End Home Slider Section -->
     <!-- Start Services Section -->
