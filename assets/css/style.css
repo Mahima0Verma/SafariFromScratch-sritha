@@ -1192,6 +1192,13 @@ p:last-child {
   .otp-input.error {
 	border-color: #ff0000;
   }
+
+  #resendOtp{
+	font-weight:bold;
+	background-color:transparent;
+	border-width:0px;
+    margin-top:3px;
+  }
   
 /**************************************
  ** - 03 - All Home Section CSS

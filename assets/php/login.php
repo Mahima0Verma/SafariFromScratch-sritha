@@ -84,7 +84,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         if ($conn->query($insert_query) === TRUE) {
             // Insert successful, send OTP via email
-            if (sendOTP($email, $otp)) {
+            if (sendOTP($email, $otp,$mail)) {
                 $_SESSION["email"] = $email;
                 $response = ["success" => true, "message" => "New user registered"];
             } else {
