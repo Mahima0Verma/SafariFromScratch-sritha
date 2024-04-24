@@ -155,7 +155,7 @@
     <label class="signup-label"><b>Email</b></label>  
     <input type="text" id="emailValue" name="emailValue" placeholder="email" class="rounded p-2 signup-input-email-field" style="border-color:darkgray;" disabled>
     <label><b>Enter OTP:</b></label>
-    <p>TimeLeft: <span id="timeLeft"></span></p>
+
     <div class="otp-container">
         <input type="text" class="otp-input" name="otp1" id="otp1" maxlength="1" require>
         <input type="text" name="otp2" class="otp-input" id="otp2" maxlength="1" disabled require>
@@ -165,13 +165,14 @@
         <input type="text" name="otp6" class="otp-input" id="otp6" maxlength="1" disabled>
     </div>
 
-
-    <p>
+    <p><b>TimeLeft: <span id="timeLeft"></span></b></p>
     <button type="submit" class="btn btn-primary rounded-3">submit</button>
-    <p id="otpResponse"></p>
+
 </form>
-<div style="text-align:right">
-      <button class="text-primary" id="resendOtp">Resend OTP</button>
+    <div style="text-align:right">
+      <button class="text-primary" id="resendOtp" style="background-color:transparent;border-width:0px; margin-top:4px;"><b>Resend OTP</b></button></br>
+      <b id="otpResponse" class="text-primary"></b>
+
     </div>
 
                     </div>
