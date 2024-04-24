@@ -164,6 +164,7 @@
         <input type="text" name="otp5" class="otp-input" id="otp5" maxlength="1" disabled>
         <input type="text" name="otp6" class="otp-input" id="otp6" maxlength="1" disabled>
     </div>
+
     <p><b>TimeLeft: <span id="timeLeft"></span></b></p>
     <button type="submit" class="btn btn-primary rounded-3">submit</button>
 
@@ -171,6 +172,7 @@
     <div style="text-align:right">
       <button class="text-primary" id="resendOtp" style="background-color:transparent;border-width:0px; margin-top:4px;"><b>Resend OTP</b></button></br>
       <b id="otpResponse" class="text-primary"></b>
+
     </div>
 
                     </div>
@@ -209,7 +211,7 @@
                     </p>
                   </div>
                   <div class="home-slider-btn-box">
-                    <a href="#0" class="btn btn-primary mr-15">Book now</a>
+                    <a href="#" class="btn btn-primary mr-15 open-book-now-popup">Book now</a>
                     
                   </div>
                 </div>
@@ -235,7 +237,7 @@
                   </div>
                   <div class="home-slider-btn-box">
                     
-                    <a href="#0" class="btn btn-primary">Book Now</a>
+                    <a href="#" class="btn btn-primary open-book-now-popup">Book Now</a>
                   </div>
                 </div>
               </div>
@@ -260,7 +262,7 @@
                   </div>
                   <div class="home-slider-btn-box">
                     
-                    <a href="#0" class="btn btn-primary">Book Now</a>
+                    <a href="#" class="btn btn-primary open-book-now-popup">Book Now</a>
                   </div>
                 </div>
               </div>
@@ -268,6 +270,73 @@
           </div>
         </div>
       </div>
+      <!--Book now popup start-->
+      <div class="book-now-popup-container" id="book-now-popup-container">
+          <div class="book-now-popup-card">
+            <div class="margin-right w-100">
+              <i class="close-booknow fa fa-times"></i>
+            </div>
+            <div class="container">
+              <h2 class="text-center mb-5" style="color: hsl(19,100%,50%);">Enquire Form</h2>
+              <form id="enquire-form" style="display: flex; flex-direction: column;">
+                <div class="enquire-input-container">
+                  <label for="username">Full Name<span>*</span></label>
+                  <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+                </div>
+                <div class="enquire-input-container">
+                  <label for="number">WhatsApp Number<span>*</span></label>
+                  <input id="number" type="tel" placeholder="Enter you Whatsapp number" required>
+                </div>
+                <div class="enquire-input-container">
+                  <label for="address">Current Address<span>*</span></label>
+                  <textarea id="address" cols="" rows="" placeholder="Enter your current address"></textarea>
+                </div>
+                <div class="enquire-input-container">
+                  <label for="near-busstop">Nearby Bus-Stop<span>*</span></label>
+                  <input type="text" id="near-busstop" placeholder="Enter your near by bus-stop" required>
+                </div>
+                <div class="enquire-input-container">
+                  <label for="exam">Select Exam<span>*</span></label>
+                  <select id="exam" >
+                    <option value="select exam">Select an Exam</option>
+                    <option value="select exam">UPSC</option>
+                    <option value="select exam">JEE</option>
+                    <option value="select exam">CAT</option>
+                  </select>
+                </div>
+                <div class="enquire-input-container">
+                  <label for="exam-date">Select Exam Date<span>*</span></label>
+                  <input type="date" id="exam-date" placeholder="" required >
+                </div>
+                <div class="enquire-input-container">
+                  <label for="city">Exam City<span>*</span></label>
+                  <input type="text" id="city" placeholder="Enter your exam city" required>
+                </div>
+                <div class="enquire-input-container">
+                    <label for="center">Exam Center<span>*</span></label>
+                    <input type="text" id="center" placeholder="Enter your exam center">
+                </div>
+                <div class="enquire-input-container">
+                    <label for="service">Select Required Service<span>*</span></label>
+                    <select id="service">
+                      <option value="select service">Select service</option>
+                      <option value="travel">Travel</option>
+                      <option value="accommodation">Accommodation</option>
+                      <option value="travel+accommodation">Travel+Accommodation</option>
+                    </select>
+                </div>
+                <div class="enquire-input-container">
+                    <label for="admitcard">Upload Admit Card<span>*</span></label>
+                    <input type="file">
+                </div>
+                <div class="submit-btn-container ">
+                  <button class="btn btn-primary">Submit</button>
+                </div>
+              </form>
+            </div>
+          </div>
+      </div>
+      <!--Book now popup end-->
     </div>
     <!-- End Home Slider Section -->
     <!-- Start Services Section -->
